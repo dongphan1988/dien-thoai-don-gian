@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function Phone(name, pin) {
+        this.name = name;
+        this.pin = pin;
+        this.messager = "";
+        this.inbox = [];
+        this.outbox = [];
+        this.statusPhone = true;
+
+
+        this.chargeBattery = function () {
+            if ( this.pin <= 99 ) {
+                this.pin++;
+            }
+        };
+        this.reduceBattery = function () {
+            if ( this.pin >= 0 ) {
+                this.reduceBattery();
+            }
+        };
+        this.getStatusPhone = function () {
+            if ( this.statusPhone ) {
+                console.log( "phone status OFF" );
+                this.reduceBattery();
+            } else {
+                console.log( "phone Status ON" );
+                this.reduceBattery();
+            }
+        };
+        this.TurnONphone = function () {
+            this.statusPhone = false;
+            this.reduceBattery();
+        };
+        this.TurnOFFphone = function () {
+            this.statusPhone = true;
+            this.reduceBattery();
+        };
+
+        this.getName = function () {
+            return this.name;
+        };
+        this.getPin = function () {
+            return this.pin;
+        };
+        this.getMessager = function () {
+            return this.messager;
+        };
+
+        this.getInbox = function () {
+            return this.inbox;
+        };
+        this.getOutbox = function () {
+            return this.outbox;
+        };
+        this.createMessager = function (messager) {
+            this.messager = messager;
+            this.reduceBattery();
+        };
+        this.sentMessager = function (phone) {
+            this.outbox.push( this.messager );
+            phone.inbox.push( this.messager );
+            this.reduceBattery();
+        };
+    }
+
+    let samsung = new Phone( "samsung", 15 );
+    let iphone = new Phone( "iphone", 15 );
+    samsung.createMessager( "hello ,can i play with you?" );
+    samsung.sentMessager( iphone );
+
+    iphone.createMessager( "okey, welcome!" );
+    iphone.sentMessager( samsung );
+
+    samsung.createMessager( "ok you are ready!" );
+    samsung.sentMessager( iphone );
+
+    iphone.createMessager( "yep!" );
+    iphone.sentMessager( samsung );
+
+
+    console.log( samsung.getOutbox() );
+    console.log( iphone.getInbox() );
+
+</script>
+</body>
+</html>
